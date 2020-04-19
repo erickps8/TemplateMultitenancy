@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using Template.Business.Models;
+using Template.Business.Models.MultiTenancy;
 
 namespace Template.Data.Context
 {
@@ -11,6 +12,7 @@ namespace Template.Data.Context
         }
 
         public DbSet<Example> Exemple { get; set; }
+        public DbSet<Tenant> Tenants { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

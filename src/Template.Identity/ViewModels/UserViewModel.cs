@@ -21,6 +21,7 @@ namespace Template.Identity.ViewModels
 
         [Compare("Password", ErrorMessage = "As senhas não conferem.")]
         public string ConfirmPassword { get; set; }
+        public Guid TenantId { get; set; }
     }
 
     public class LoginUserViewModel
@@ -32,12 +33,14 @@ namespace Template.Identity.ViewModels
         [Required(ErrorMessage = "O campo {0} é obrigatório")]
         [StringLength(100, ErrorMessage = "O campo {0} precisa ter entre {2} e {1} caracteres", MinimumLength = 6)]
         public string Password { get; set; }
+        public Guid TenantId { get; set; }
     }
     public class UserTokenViewModel
     {
         public string Id { get; set; }
         public string Email { get; set; }
         public string Nome { get; set; }
+        public Guid TenantId { get; set; }
         public IEnumerable<ClaimViewModel> Claims { get; set; }
     }
 

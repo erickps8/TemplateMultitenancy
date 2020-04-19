@@ -9,27 +9,30 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Template.Business.Interfaces;
+using Template.Business.Models.MultiTenancy;
 using Template.Identity.Data;
 using Template.Identity.Exensions;
 using Template.Identity.ViewModels;
 
 namespace Template.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/{tenant}/[controller]")]
     [ApiController]
     public class AuthController : MainController
     {
         private readonly SignInManager<CustomIdentity> _signInManager;
         private readonly UserManager<CustomIdentity> _userManager;
         private readonly AppSettings _appSettings;
+        private readonly Tenant _tenant;
         public AuthController(INotificator notificator,
                               SignInManager<CustomIdentity> signInManager,
                               UserManager<CustomIdentity> userManager,
-                              IOptions<AppSettings> appSettings, IUser user) : base(notificator, user)
+                              IOptions<AppSettings> appSettings, Tenant tenant, IUser user) : base(notificator, user)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _appSettings = appSettings.Value;
+            _tenant = tenant;
         }
 
         [HttpPost("nova-conta")]
@@ -42,7 +45,9 @@ namespace Template.Api.Controllers
                 UserName = registerUser.Email,
                 Email = registerUser.Email,
                 Nome = registerUser.Nome,
+                TenantId = registerUser.TenantId,
                 EmailConfirmed = true
+
             };
 
             var result = await _userManager.CreateAsync(user, registerUser.Password);
@@ -64,11 +69,10 @@ namespace Template.Api.Controllers
         {
             if (!ModelState.IsValid) return CustomResponse(ModelState);
 
-            var result = await _signInManager.PasswordSignInAsync(loginUser.Email, loginUser.Password, false, true);
+            var result = await _signInManager.PasswordSignInAsync(loginUser.Email, loginUser.Password,  false, true);
 
-            if (result.Succeeded)
+            if (result.Succeeded && loginUser.TenantId.Equals(_tenant.Id))
             {
-
                 return CustomResponse(await GerarJwt(loginUser.Email));
             }
             if (result.IsLockedOut)
@@ -122,6 +126,7 @@ namespace Template.Api.Controllers
                     Id = user.Id,
                     Email = user.Email,
                     Nome = user.Nome,
+                    TenantId = user.TenantId,
                     Claims = claims.Select(c => new ClaimViewModel { Type = c.Type, Value = c.Value })
                 }
             };

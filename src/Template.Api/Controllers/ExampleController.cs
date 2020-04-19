@@ -7,24 +7,27 @@ using Microsoft.AspNetCore.Mvc;
 using Template.Api.Dtos;
 using Template.Business.Interfaces;
 using Template.Business.Models;
+using Template.Business.Models.MultiTenancy;
 using Template.Identity.Exensions;
 
 namespace Template.Api.Controllers
 {
     [Authorize]
-    [Route("api/[controller]")]
+    [Route("api/{tenant}/[controller]")]
     [ApiController]
     public class ExampleController : MainController
     {
         private readonly IExampleRepository _exempleRepository;
         private readonly IExampleService _exempleService;
         private readonly IMapper _mapper;
+        private readonly Tenant _tenant;
 
-        public ExampleController(IExampleRepository exemplerepository, IExampleService exempleSrevice, IMapper mapper, INotificator notificator, IUser user) : base(notificator, user)
+        public ExampleController(IExampleRepository exemplerepository, IExampleService exempleSrevice, IMapper mapper, INotificator notificator, Tenant tenant, IUser user) : base(notificator, user)
         {
             _exempleRepository = exemplerepository;
             _exempleService = exempleSrevice;
             _mapper = mapper;
+            _tenant = tenant;
         }
 
         [HttpGet("{id:guid}")]
@@ -35,9 +38,9 @@ namespace Template.Api.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        public async Task<IEnumerable<ExampleDto>> ObterTodos()
+        public async Task<IActionResult> ObterTodos()
         {
-            return _mapper.Map<IEnumerable<ExampleDto>>(await _exempleRepository.ObterTodos());
+            return Ok(_tenant);//_mapper.Map<IEnumerable<ExampleDto>>(await _exempleRepository.ObterTodos());
         }
         [HttpPost]
         public async Task<ActionResult<ExampleDto>> Adicionar(ExampleDto exempleDto)
