@@ -21,7 +21,6 @@ namespace Template.Identity.ViewModels
 
         [Compare("Password", ErrorMessage = "As senhas não conferem.")]
         public string ConfirmPassword { get; set; }
-        public Guid TenantId { get; set; }
     }
 
     public class LoginUserViewModel

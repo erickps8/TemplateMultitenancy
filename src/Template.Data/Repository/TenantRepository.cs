@@ -18,31 +18,23 @@ namespace Template.Data.Repository
         {
             TenantContext<Tenant> tenantContext = null;
 
-            var teste = context.Request.Path.Value.ToLower();
+            var pathUrl = context.Request.Path.Value.ToLower();
 
-            var lstEmpresa = teste.Split("/");
-            if (lstEmpresa[1] != "swagger")
+            var lstEmpresa = pathUrl.Split("/");
+            if (lstEmpresa[1] == "api")
             {
 
-            
-            var tenant = await Db.Tenants.AsNoTracking().FirstOrDefaultAsync(t =>
-                t.HostName.Equals(lstEmpresa[2]));
+                var tenant = await Db.Tenants.AsNoTracking().FirstOrDefaultAsync(t =>
+                    t.HostName.Equals(lstEmpresa[2]));
 
-            if (tenant != null)
-            {
-                tenantContext = new TenantContext<Tenant>(tenant);
-            }
+                if (tenant != null)
+                {
+                    tenantContext = new TenantContext<Tenant>(tenant);
+
+                }
 
             }
             return tenantContext;
         }
-
-        public string[] UrlsTenancy()
-        {
-            var tenant = Db.Tenants.Select(t => t.UrlComplete).ToArray();
-                       
-            return tenant;
-        }
-
     }
 }
