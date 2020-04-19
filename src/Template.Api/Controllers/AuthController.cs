@@ -45,7 +45,7 @@ namespace Template.Api.Controllers
                 UserName = registerUser.Email,
                 Email = registerUser.Email,
                 Nome = registerUser.Nome,
-                TenantId = registerUser.TenantId,
+                TenantId = _tenant.Id,
                 EmailConfirmed = true
 
             };
@@ -69,9 +69,10 @@ namespace Template.Api.Controllers
         {
             if (!ModelState.IsValid) return CustomResponse(ModelState);
 
-            var result = await _signInManager.PasswordSignInAsync(loginUser.Email, loginUser.Password,  false, true);
+            var result = await _signInManager.PasswordSignInAsync(loginUser.Email, loginUser.Password,  false, true);            
+            var user = await _userManager.FindByEmailAsync(loginUser.Email);
 
-            if (result.Succeeded && loginUser.TenantId.Equals(_tenant.Id))
+            if (result.Succeeded && user.TenantId.Equals(_tenant.Id))
             {
                 return CustomResponse(await GerarJwt(loginUser.Email));
             }
