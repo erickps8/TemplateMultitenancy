@@ -2,9 +2,9 @@
     "$schema": "http://json.schemastore.org/template",
     "author": "Erick Pinheiro de Sousa",
     "classifications": [ "Web", "WebApi", "C#" ],
-    "identity": "Erick.Pinheiro.Template.API",
-    "name": "DooM Template - Erick pinheiro - Web API .NET Core 3 ",
-    "shortName": "doom-template",
+    "identity": "Template.Api.Multi.Tenancy",
+    "name": "DooM Template Multi Tenancy - Erick pinheiro - Web API .NET Core 3 ",
+    "shortName": "doom-mt",
     "tags": {
         "language": "C#",
         "type": "project"
