@@ -1,31 +1,18 @@
 # Projeto-base
-- Projeto base para criação de API Dot Net Core
+- Projeto base para criação de API Dot Net Core baseada em multitenancy;
 - Documentação com swagger já configurado;
 - Sistema de autorização e autenticação com Identity baseado em claims;
 - EndPoints de exemplo para nortear o desenvolvedor diante da arquitetura;
 
 ### Requisitos
-<<<<<<< HEAD
-- Dot .Net 3.1
-=======
 - Dot .Net Core 3.1
->>>>>>> master
 - Postgres Sql
 
 ### Instalação
 - Primeiro precisamos obter o pack de instalação da API, abra o prompt de comando de sua preferência (cmd, power shell, console, gitBash, etc.) e execute o comando:
-	> dotnet new -i Erick.Pinheiro.Template.Api
-<<<<<<< HEAD
-  
+	> dotnet new -i Template.Api.Multi.Tenancy  
 - Ainda no prompt de comando, navegue até a pasta onde deseja guardar o projeto e execute o seguinte comando:
-	> dotnet  new doom-template -n [NomeDoProjeto] 
-  
-=======
-	
-- Ainda no prompt de comando, navegue até a pasta onde deseja guardar o projeto e execute o seguinte comando:
-	> dotnet  new doom-template -n [NomeDoProjeto] 
-	
->>>>>>> master
+	> dotnet  new doom-mt -n [NomeDoProjeto] 
 - Pronto, agora a base da sua API está disponível e só precisa de pequenas configurações.
 
 ### Configurações
